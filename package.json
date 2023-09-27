@@ -1,0 +1,19 @@
+{
+  "name": "natours",
+  "version": "1.0.0",
+  "description": "Learning node.js , express , mongodb",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanjayRawat123/natours.git"
+  },
+  "author": "Sanjay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SanjayRawat123/natours/issues"
+  },
+  "homepage": "https://github.com/SanjayRawat123/natours#readme"
+}
