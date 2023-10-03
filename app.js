@@ -1,17 +1,20 @@
 const fs = require('fs');
 const express = require('express');
-
+const morgan = require('morgan');
 
 const app = express();
+
+//1] Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
-app.use((req , res , next)=>{
-  console.log('hello from middleware') ;
+app.use((req, res, next) => {
+  console.log('hello from middleware');
   next();
 })
 
-app.use((req,res,next)=>{
- req.requestTime = new Date ().toISOString();
- next();
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
 })
 const port = 3000;
 
@@ -24,11 +27,12 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 // app.post('/', (req, res) => {
 //   res.status(200).json("yes post methoed is working ");
 // })
-/////////get methoed
+
+// 2] Route Handlers
 getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
-    requestedAt:req.requestTime,
+    requestedAt: req.requestTime,
     results: tours.length,
     status: 'succes',
     data: {
@@ -91,8 +95,11 @@ deleteTour = (req, res) => {
 // app.post('/api/v1/tours', addTours);
 // app.delete('/api/v1/tour/:id', deleteTour);
 
+// 3] Routes
 app.route('/api/v1/tours').get(getAllTours).post(addTours);
 app.route('/api/v1/tour/:id').delete(deleteTour).get(getTour);
+app.route('api/v1/users').get(getAllUsers).post(createUser);
+app.route('/api/v1/user/:id').get(getUserById).put(UpdateUser).delete(deleteUser);
 
 // app.patch('/api/v1/tour/:id',(req , res)=>{
 //   
@@ -111,7 +118,7 @@ app.route('/api/v1/tour/:id').delete(deleteTour).get(getTour);
 
 // })
 
-
+// 4] Start server
 app.listen(port, () => {
   console.log(`app runnig on port ${port}`);
 })
