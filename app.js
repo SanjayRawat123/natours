@@ -4,6 +4,15 @@ const express = require('express');
 
 const app = express();
 app.use(express.json());
+app.use((req , res , next)=>{
+  console.log('hello from middleware') ;
+  next();
+})
+
+app.use((req,res,next)=>{
+ req.requestTime = new Date ().toISOString();
+ next();
+})
 const port = 3000;
 
 
@@ -12,13 +21,14 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simpl
 // app.get('/', (req, res) => {
 //   res.status(200).json({ message: 'hello from the server side !', app: 'natours' });
 // });
-
 // app.post('/', (req, res) => {
 //   res.status(200).json("yes post methoed is working ");
 // })
 /////////get methoed
 getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
+    requestedAt:req.requestTime,
     results: tours.length,
     status: 'succes',
     data: {
@@ -77,15 +87,11 @@ deleteTour = (req, res) => {
 
 }
 // app.get('/api/v1/tours', getAllTours);
-
 // app.get('/api/v1/tours/:id', getTour);
-
 // app.post('/api/v1/tours', addTours);
-
 // app.delete('/api/v1/tour/:id', deleteTour);
 
-app.route('/api/v1 / tours').get(getAllTours).post(addTours);
-
+app.route('/api/v1/tours').get(getAllTours).post(addTours);
 app.route('/api/v1/tour/:id').delete(deleteTour).get(getTour);
 
 // app.patch('/api/v1/tour/:id',(req , res)=>{
