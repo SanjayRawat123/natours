@@ -39,7 +39,7 @@ getAllTours = (req, res) => {
       tours
     }
   });
-}
+};
 
 getTour = (req, res) => {
   console.log(req.params);
@@ -51,15 +51,15 @@ getTour = (req, res) => {
       data: {
         message: 'Invalid Id '
       }
-    })
-  }
+    });
+  };
   res.status(200).json({
     status: 'succes',
     data: {
       tour
     }
   });
-}
+};
 
 addTours = (req, res) => {
   // console.log(req.body);
@@ -75,7 +75,7 @@ addTours = (req, res) => {
     });
 
   });
-}
+};
 
 deleteTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
@@ -83,24 +83,79 @@ deleteTour = (req, res) => {
       status: 'failed',
       message: 'Invalid ID'
     });
-  }
+  };
   res.status(204).json({
     status: 'success',
     data: null
   });
 
-}
+};
+
+getAllUsers = (req, res) => {
+
+  res.status(500).json({
+    status: 'error',
+    message: 'this route is not implemented'
+  });
+};
+getUser = (req, res) => {
+
+  res.status(500).json({
+    status: 'error',
+    message: 'this route is not implemented'
+  });
+};
+createUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'this route is not implemented'
+  });
+};
+
+UpdateUser = (req, res) => {
+
+  res.status(500).json({
+    status: 'error',
+    message: 'this route is not implemented'
+  });
+};
+deleteUser = (req, res) => {
+
+  res.status(500).json({
+    status: 'error',
+    message: 'this route is not implemented'
+  });
+};
 // app.get('/api/v1/tours', getAllTours);
 // app.get('/api/v1/tours/:id', getTour);
 // app.post('/api/v1/tours', addTours);
 // app.delete('/api/v1/tour/:id', deleteTour);
 
-// 3] Routes
-app.route('/api/v1/tours').get(getAllTours).post(addTours);
-app.route('/api/v1/tour/:id').delete(deleteTour).get(getTour);
-app.route('api/v1/users').get(getAllUsers).post(createUser);
-app.route('/api/v1/user/:id').get(getUserById).put(UpdateUser).delete(deleteUser);
+// 3] Router
 
+const tourRouters = express.Router();
+const userRouters = express.Router();
+tourRouters
+  .route('/')
+  .get(getAllTours)
+  .post(addTours);
+tourRouters
+  .route('/:id')
+  .delete(deleteTour)
+  .get(getTour);
+
+userRouters
+  .route('/')
+  .get(getAllUsers)
+  .post(createUser);
+userRouters
+  .route('/:id')
+  .get(getUser)
+  .put(UpdateUser)
+  .delete(deleteUser);
+  
+app.use('/api/v1/tours', tourRouters);
+app.use('/api/v1/users', userRouters);
 // app.patch('/api/v1/tour/:id',(req , res)=>{
 //   
 //   if(req.params.id*1> tours.length){
